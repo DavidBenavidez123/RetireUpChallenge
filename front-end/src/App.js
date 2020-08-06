@@ -10,7 +10,7 @@ function App() {
   const [spList, setspList] = useState(SP);
   const [spListFilter, setspListFilter] = useState(SP);
   const [totalReturn, setTotalReturn] = useState(0);
-  const [reverseOrderYear, setReverseOrder] = useState(false)
+  const [reverseOrderYear, setReverseOrder] = useState(true)
   const [reverseOrderReturn, setReverseReturn] = useState(false)
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function App() {
   }, [value]);
 
   const filterList = () => {
-    setspListFilter(spList.filter(sp => sp.year >= value[0] && sp.year <= value[1]))
+    setspListFilter(spList.sort((a, b) => a.year - b.year).filter(sp => sp.year >= value[0] && sp.year <= value[1]))
   }
 
   const totalReturnSum = () => {
@@ -34,10 +34,10 @@ function App() {
   const reverseListYear = () => {
     let tempList = [...spListFilter]
     if (reverseOrderYear) {
-      tempList.sort((a, b) => parseFloat(b.year) - parseFloat(a.year));
+      tempList.sort((a, b) => b.year - a.year);
     }
     else {
-      tempList.sort((a, b) => parseFloat(a.year) - parseFloat(b.year));
+      tempList.sort((a, b) => a.year - b.year);
     }
     setspListFilter(tempList)
     setReverseOrder(reverseOrderYear => !reverseOrderYear)
@@ -47,10 +47,10 @@ function App() {
   const reverseListReturn = () => {
     let tempList = [...spListFilter]
     if (reverseOrderReturn) {
-      tempList.sort((a, b) => parseFloat(b.totalReturn) - parseFloat(a.totalReturn));
+      tempList.sort((a, b) => b.totalReturn - a.totalReturn);
     }
     else {
-      tempList.sort((a, b) => parseFloat(a.totalReturn) - parseFloat(b.totalReturn));
+      tempList.sort((a, b) => a.totalReturn - b.totalReturn);
     }
     setspListFilter(tempList)
     setReverseReturn(reverseOrderReturn => !reverseOrderReturn)
